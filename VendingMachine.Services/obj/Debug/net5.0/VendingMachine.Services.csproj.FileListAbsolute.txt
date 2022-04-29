@@ -1,0 +1,5 @@
+C:\Users\ASUS\source\repos\testhotel1\VendingMachine.Services\obj\Debug\net5.0\VendingMachine.Services.csproj.AssemblyReference.cache
+C:\Users\ASUS\source\repos\testhotel1\VendingMachine.Services\obj\Debug\net5.0\VendingMachine.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ASUS\source\repos\testhotel1\VendingMachine.Services\obj\Debug\net5.0\VendingMachine.Services.AssemblyInfoInputs.cache
+C:\Users\ASUS\source\repos\testhotel1\VendingMachine.Services\obj\Debug\net5.0\VendingMachine.Services.AssemblyInfo.cs
+C:\Users\ASUS\source\repos\testhotel1\VendingMachine.Services\obj\Debug\net5.0\VendingMachine.Services.csproj.CoreCompileInputs.cache

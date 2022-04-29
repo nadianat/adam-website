@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="vending_machine_databaseEntities">
+    <EntitySetMapping Name="Hotels">
+      <EntityTypeMapping TypeName="Model.Hotel">
+        <MappingFragment StoreEntitySet="Hotel">
+          <ScalarProperty Name="Hotel_ID" ColumnName="Hotel_ID" />
+          <ScalarProperty Name="Hotel_Name" ColumnName="Hotel_Name" />
+          <ScalarProperty Name="HotelImgURL" ColumnName="HotelImgURL" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Machines">
+      <EntityTypeMapping TypeName="Model.Machine">
+        <MappingFragment StoreEntitySet="Machine">
+          <ScalarProperty Name="Machine_ID" ColumnName="Machine_ID" />
+          <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+          <ScalarProperty Name="Machine_Name" ColumnName="Machine_Name" />
+          <ScalarProperty Name="PWD" ColumnName="PWD" />
+          <ScalarProperty Name="Hotel_ID" ColumnName="Hotel_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="Model.Product">
+        <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+          <ScalarProperty Name="Product_Type_ID" ColumnName="Product_Type_ID" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="Hotel_ID" ColumnName="Hotel_ID" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Product_Type">
+      <EntityTypeMapping TypeName="Model.Product_Type">
+        <MappingFragment StoreEntitySet="Product_Type">
+          <ScalarProperty Name="Product_Type_ID" ColumnName="Product_Type_ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Introduction" ColumnName="Introduction" />
+          <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+          <ScalarProperty Name="ImageDataUrl" ColumnName="ImageDataUrl" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Slots">
+      <EntityTypeMapping TypeName="Model.Slot">
+        <MappingFragment StoreEntitySet="Slot">
+          <ScalarProperty Name="SlotNo" ColumnName="SlotNo" />
+          <ScalarProperty Name="Machine_ID" ColumnName="Machine_ID" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+          <ScalarProperty Name="KeyNum" ColumnName="KeyNum" />
+          <ScalarProperty Name="SessionCode" ColumnName="SessionCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="Model.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Transactions">
+      <EntityTypeMapping TypeName="Model.Transaction">
+        <MappingFragment StoreEntitySet="Transaction">
+          <ScalarProperty Name="TradeNo" ColumnName="TradeNo" />
+          <ScalarProperty Name="Machine_ID" ColumnName="Machine_ID" />
+          <ScalarProperty Name="SlotNo" ColumnName="SlotNo" />
+          <ScalarProperty Name="MsgType" ColumnName="MsgType" />
+          <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+          <ScalarProperty Name="Time" ColumnName="Time" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="FunCode" ColumnName="FunCode" />
+          <ScalarProperty Name="ErrorMsg" ColumnName="ErrorMsg" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="UpdateJson" ColumnName="UpdateJson" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

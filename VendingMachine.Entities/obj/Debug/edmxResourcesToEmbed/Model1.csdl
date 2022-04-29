@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Hotel">
+    <Key>
+      <PropertyRef Name="Hotel_ID" />
+    </Key>
+    <Property Name="Hotel_ID" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Hotel_Name" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="HotelImgURL" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Machines" Relationship="Self.FK_Machine_Hotel" FromRole="Hotel" ToRole="Machine" />
+    <NavigationProperty Name="Products" Relationship="Self.FK_Product_Hotel" FromRole="Hotel" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Machine">
+    <Key>
+      <PropertyRef Name="Machine_ID" />
+    </Key>
+    <Property Name="Machine_ID" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Capacity" Type="Int32" Nullable="false" />
+    <Property Name="Machine_Name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="PWD" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Hotel_ID" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Hotel" Relationship="Self.FK_Machine_Hotel" FromRole="Machine" ToRole="Hotel" />
+    <NavigationProperty Name="Slots" Relationship="Self.FK_Slot_Number_Machine" FromRole="Machine" ToRole="Slot" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Product_ID" />
+    </Key>
+    <Property Name="Product_ID" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Product_Type_ID" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Remarks" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Hotel_ID" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <NavigationProperty Name="Hotel" Relationship="Self.FK_Product_Hotel" FromRole="Product" ToRole="Hotel" />
+    <NavigationProperty Name="Product_Type" Relationship="Self.FK_Product_Product_Type" FromRole="Product" ToRole="Product_Type" />
+    <NavigationProperty Name="Slots" Relationship="Self.FK_Slot_Number_Product" FromRole="Product" ToRole="Slot" />
+    <NavigationProperty Name="Transactions" Relationship="Self.FK_Transaction_Product1" FromRole="Product" ToRole="Transaction" />
+  </EntityType>
+  <EntityType Name="Product_Type">
+    <Key>
+      <PropertyRef Name="Product_Type_ID" />
+    </Key>
+    <Property Name="Product_Type_ID" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Introduction" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="ImageUrl" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="ImageDataUrl" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Products" Relationship="Self.FK_Product_Product_Type" FromRole="Product_Type" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Slot">
+    <Key>
+      <PropertyRef Name="SlotNo" />
+      <PropertyRef Name="Machine_ID" />
+    </Key>
+    <Property Name="SlotNo" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Machine_ID" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Status" Type="Int32" Nullable="false" />
+    <Property Name="Product_ID" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="KeyNum" Type="Int32" Nullable="false" />
+    <Property Name="SessionCode" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Machine" Relationship="Self.FK_Slot_Number_Machine" FromRole="Slot" ToRole="Machine" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_Slot_Number_Product" FromRole="Slot" ToRole="Product" />
+    <NavigationProperty Name="Transactions" Relationship="Self.FK_Transaction_Slot" FromRole="Slot" ToRole="Transaction" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Transaction">
+    <Key>
+      <PropertyRef Name="TradeNo" />
+      <PropertyRef Name="Machine_ID" />
+      <PropertyRef Name="SlotNo" />
+    </Key>
+    <Property Name="TradeNo" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Machine_ID" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="SlotNo" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="MsgType" Type="Int32" />
+    <Property Name="Product_ID" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+    <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
+    <Property Name="FunCode" Type="Int32" Nullable="false" />
+    <Property Name="ErrorMsg" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+    <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="UpdateJson" Type="String" MaxLength="100" FixedLength="true" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_Transaction_Product1" FromRole="Transaction" ToRole="Product" />
+    <NavigationProperty Name="Slot" Relationship="Self.FK_Transaction_Slot" FromRole="Transaction" ToRole="Slot" />
+  </EntityType>
+  <Association Name="FK_Machine_Hotel">
+    <End Role="Hotel" Type="Self.Hotel" Multiplicity="1" />
+    <End Role="Machine" Type="Self.Machine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Hotel">
+        <PropertyRef Name="Hotel_ID" />
+      </Principal>
+      <Dependent Role="Machine">
+        <PropertyRef Name="Hotel_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_Hotel">
+    <End Role="Hotel" Type="Self.Hotel" Multiplicity="1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Hotel">
+        <PropertyRef Name="Hotel_ID" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="Hotel_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Slot_Number_Machine">
+    <End Role="Machine" Type="Self.Machine" Multiplicity="1" />
+    <End Role="Slot" Type="Self.Slot" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Machine">
+        <PropertyRef Name="Machine_ID" />
+      </Principal>
+      <Dependent Role="Slot">
+        <PropertyRef Name="Machine_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_Product_Type">
+    <End Role="Product_Type" Type="Self.Product_Type" Multiplicity="1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product_Type">
+        <PropertyRef Name="Product_Type_ID" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="Product_Type_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Slot_Number_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="Slot" Type="Self.Slot" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Product_ID" />
+      </Principal>
+      <Dependent Role="Slot">
+        <PropertyRef Name="Product_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Transaction_Product1">
+    <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+    <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Product_ID" />
+      </Principal>
+      <Dependent Role="Transaction">
+        <PropertyRef Name="Product_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Transaction_Slot">
+    <End Role="Slot" Type="Self.Slot" Multiplicity="1" />
+    <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Slot">
+        <PropertyRef Name="SlotNo" />
+        <PropertyRef Name="Machine_ID" />
+      </Principal>
+      <Dependent Role="Transaction">
+        <PropertyRef Name="SlotNo" />
+        <PropertyRef Name="Machine_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="vending_machine_databaseEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Hotels" EntityType="Self.Hotel" />
+    <EntitySet Name="Machines" EntityType="Self.Machine" />
+    <EntitySet Name="Products" EntityType="Self.Product" />
+    <EntitySet Name="Product_Type" EntityType="Self.Product_Type" />
+    <EntitySet Name="Slots" EntityType="Self.Slot" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="Transactions" EntityType="Self.Transaction" />
+    <AssociationSet Name="FK_Machine_Hotel" Association="Self.FK_Machine_Hotel">
+      <End Role="Hotel" EntitySet="Hotels" />
+      <End Role="Machine" EntitySet="Machines" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_Hotel" Association="Self.FK_Product_Hotel">
+      <End Role="Hotel" EntitySet="Hotels" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Slot_Number_Machine" Association="Self.FK_Slot_Number_Machine">
+      <End Role="Machine" EntitySet="Machines" />
+      <End Role="Slot" EntitySet="Slots" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_Product_Type" Association="Self.FK_Product_Product_Type">
+      <End Role="Product_Type" EntitySet="Product_Type" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Slot_Number_Product" Association="Self.FK_Slot_Number_Product">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Slot" EntitySet="Slots" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Transaction_Product1" Association="Self.FK_Transaction_Product1">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Transaction" EntitySet="Transactions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Transaction_Slot" Association="Self.FK_Transaction_Slot">
+      <End Role="Slot" EntitySet="Slots" />
+      <End Role="Transaction" EntitySet="Transactions" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

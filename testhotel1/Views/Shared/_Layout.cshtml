@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ADAM</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ADAM.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/images" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" asp-append-version="true">
+      <!-- style css -->
+     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" / />
+      <!-- Responsive-->
+     <link rel="stylesheet" href="~/css/responsive.css" asp-append-version="true" />
+      <!-- fevicon -->
+     <link rel="icon" href="images/fevicon.png" type="image/gif" asp-append-version="true"/>
+      <!-- Scrollbar Custom CSS -->
+     <link rel="stylesheet" href="~/css/jquery.mCustomScrollbar.min.css" asp-append-version="true" />
+      <!-- Tweaks for older IEs-->
+     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" asp-append-version="true" />
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" asp-append-version="true" />
+</head>
+  <body class="main-layout">
+      <!-- loader  -->
+      <div class="loader_bg">
+         <div class="loader"><img src="~/images/loading.gif" alt="#" /></div>
+      </div>
+      <!-- end loader -->
+      <!-- header -->
+      <header>
+         <!-- header inner -->
+         <div class="header">
+            <div class="container">
+               <div class="row">
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
+                     <div class="full">
+                        <div class="center-desk">
+                           <div class="logo">
+                              <a href="index.html"><img src="~/images/secoms-logo.png" alt="#" /></a>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
+                     <div class="help_btn"><a href="#">Help</a></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </header>
+
+            <!-- banner -->
+      <section class="banner_main">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-6">
+                  <div class="text-bg">
+                     <div class="padding_lert">
+                        <h1>WELCOME TO HOTEL Felicity </h1>
+                       
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-6">
+                <div class="about_img">
+                   <figure><img src="~/images/about_img.jpg" alt="#" /></figure>
+                </div>
+             </div>
+            </div>
+         </div>
+      </section>
+      <!-- end banner -->
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!--  footer -->
+      <footer id="contact">
+            <div class="copyright">
+               <div class="container">
+                  <div class="row">
+                     <div class="col-md-12">
+                        <p>Copyright 2021 All Right Reserved By miraB and nad</a></p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         <!-- </div> -->
+      </footer>
+      <!-- end footer -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+     <script src="~/js/jquery.min.js"></script>
+      <script src="~/js/popper.min.js"></script>
+      <script src="~/js/bootstrap.bundle.min.js"></script>
+      <script src="~/js/jquery-3.0.0.min.js"></script>
+      <script src="~/js/plugin.js"></script>
+      <!-- sidebar -->
+      <script src="~/js/jquery.mCustomScrollbar.concat.min.js"></script>
+      <script src="~/js/custom.js"></script>
+      <script src="~/https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+</body>
+</html>

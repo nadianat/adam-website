@@ -1,0 +1,441 @@
+﻿@model VendingMachine.Services.ViewModel.HotelInfoViewModel
+
+@{
+    ViewData["Title"] = "Walk In Reservation";
+    Layout = "~/Views/Shared/_Layout.cshtml"; //input layout
+}
+<html>
+    <head>
+    <meta http-equiv="cache-control" content="no-cache" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css" />
+
+    <style>
+        table, th, td {
+            border: none;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 5px;
+            text-align: left;
+        }
+        * {
+            box-sizing: border-box;
+        }
+
+        .room_box {
+            float: left;
+            width: 65%;
+            padding: 50px;
+        }
+        .cart_box {
+            width: 75%;
+            padding: 50px;
+            position: fixed;
+            bottom: 0px;
+            margin-right: 0px;
+            z-index:10;
+
+        }
+
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+        div.cart-container {
+            max-width: 400px;
+            margin: auto;
+            border: 3px solid #73AD21;
+            right: 0px;
+        }
+        #proceed {
+            background-color: #E60042; /* Red */
+            border: none;
+            color: white;
+            padding: 8px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px;
+            margin: auto;
+            cursor: pointer;
+        }
+
+/* Fill button styling */
+.fill {
+  font-size: 20px;
+  font-weight: 200;
+  letter-spacing: 1px;
+  padding: 13px 50px 13px;
+  outline: 0;
+  border: 1px solid black;
+  cursor: pointer;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.fill::after {
+  content: "";
+  background-color: #ff861c;
+  width: 100%;
+  z-index: -1;
+  position: absolute;
+  height: 100%;
+  top: 7px;
+  left: 7px;
+  transition: 0.2s;
+}
+
+.fill:hover::after {
+  top: 0px;
+  left: 0px;
+}
+/* End of Fill Button  */
+
+/*booking cart button*/
+#cartReveal {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+}
+    </style>
+</head>
+
+
+    <body>
+
+
+    @* start the nice thing with icons*@
+            <div class="our">
+               <div class="container bookform" style="padding-bottom: 0px">
+                      <div class="timeprogress">
+                          <ul>
+                              <li>
+                                  <img src ="~/images/icons/select item.png"><br>
+                                  <i class="fa fa-refresh" style="background: rgba(5, 151, 19, 0.949);"></i>
+                                  <p>Select Room</p>
+                              </li>
+                              <li>
+                                <img src ="~/images/icons/cart.png"><br>    
+                                <i class="fa fa-times" style="background: #ccc;"></i>
+                                <p>Review Cart</p>
+                            </li>
+                            <li>
+                                <img src ="~/images/icons/details.png"><br>
+                                <i class="fa fa-times" style="background: #ccc;"></i>
+                                <p>Fill Details</p>
+                            </li>
+                            <li>
+                                <img src ="~/images/icons/payment.png"><br>
+                                <i class="fa fa-times" style="background: #ccc;"></i>
+                                <p>Make Payment</p>
+                            </li>
+                          </ul>
+                      </div>
+             </div>
+          </div>
+      @* end the nice thing with icons*@
+
+      @*start search engine check in check out dates*@
+         <div class="search-container" style="width:auto;height:100px;border:0px; margin:auto">
+        <div style="padding:30px;">
+                <table width="900" style="margin: 0 auto;align-content:center">
+                    <tr>
+                        <th>
+                <h4>Check-in date:</h4>
+                <input type="date" name="check_in_date" id="check-in" style="font-size:20px; border-radius:20px; width: 250px; text-align:center;" onchange="enableCheckOut(); editCheckOut(); validate()" />
+                <script>
+                    var today = new Date();
+                    var dd = today.getDate();
+                    var mm = today.getMonth() + 1; //January is 0!
+                    var yyyy = today.getFullYear();
+                    if (dd < 10) {
+                        dd = '0' + dd
+                    }
+                    if (mm < 10) {
+                        mm = '0' + mm
+                    }
+
+                    today = yyyy + '-' + mm + '-' + dd;
+                    document.getElementById("check-in").setAttribute("min", today);
+                </script>
+                </th>
+                <th>
+                <h4>Check-out date:</h4>
+                <input type="date" name="check_out_date" id="check-out" style="font-size:20px; border-radius:20px; width: 250px; text-align:center;" disabled="disabled" onchange="validate()" />
+            </th>
+            <th>        
+            <input type="submit" id="get" style="border-radius:20px; font-size:20px" value="Search" onclick="updateCart(); updateNights();" />
+            </th>
+         </tr>
+                </table>
+        </div>
+    </div>
+  
+        <script>
+        //enable checkout button
+        function enableCheckOut() {
+            if (document.getElementById("check-in").value != null) {
+                document.getElementById("check-out").disabled = false;
+            }
+        }
+        //set checkout date min
+        function editCheckOut() {
+            var date = new Date(document.getElementById("check-in").value);
+            date.setDate(date.getDate() + 1);
+            var dd = date.getDate();
+            var mm = date.getMonth() + 1; //January is 0!
+            var yyyy = date.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd
+            }
+            if (mm < 10) {
+                mm = '0' + mm
+            }
+
+            date = yyyy + '-' + mm + '-' + dd;
+            document.getElementById("check-out").setAttribute("min", date);
+        }
+        function validate() {
+            var check_in = document.getElementById("check-in").value;
+            var check_out = document.getElementById("check-out").value;
+        }
+        //putting check in and checkout dates in cart when pressing 
+        function updateCart()
+                {
+                    document.getElementById("cartCID").value = document.getElementById("check-in").value;
+                    document.getElementById("cartCOD").value = document.getElementById("check-out").value;
+                }
+        function updateNights()
+               {
+                   var d1 = document.getElementById("check-in").value;
+                   var d2 = document.getElementById("check-out").value;
+                   const checkin = new Date(d1);
+                   const checkout = new Date(d2);
+                   const time = Math.abs(checkout - checkin);
+                   const days = Math.ceil(time / (1000 * 60 * 60 * 24));
+                   document.getElementById("nights").value = days;
+               }
+    </script>
+    @*end search engine check in check out dates*@
+
+
+    @*start room*@
+    <div class="clearfix">
+        <div class="room_box">
+            @if (Model.HotelRooms.Count() == 0)
+            {
+                <div>NO ROOMS FOUND PLEASE ADJUST INPUT AND SEARCH AGAIN</div>
+            }
+            @{ int i = 1;}
+            @foreach (var item in Model.HotelRooms)
+            {
+                <div id="room_table">
+                    <table width="1100" height="300" style="margin: 0 auto; font-size:20px">
+                        <tr>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <div id="@i"><h2>@item.RoomName</h2></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div id="description-@i">@item.RoomDescription</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Price Per Night: RM
+                                            <div id="price-@i">@item.RoomPrice</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:20px">
+                                    <input type="number" id="roomNo-@i" name="roomNumber" value="1" min="1" max=10 @*need to get from API*@ style="font-size:20px;text-align:center">
+                                </td>
+                                <td style="padding:20px">
+                                    <input type="submit" id="btn-@i" value="Reserve Now" onclick="addToCart(@i); updateTotal(@i); disablebtn(@i); validateProceed()" style="font-size:20px; background-color: #4CAF50; border: none;color: white; padding: 8px 10px; border-radius: 15px" />
+                                </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td>
+                                <img src= @item.RoomImgURL width="350" height="200"/>
+                            </td>
+                                
+                            </tr>
+                            
+                    </table>
+
+                </div>
+                i++;
+            }
+        </div>
+        </div>
+        @*end room*@
+
+        @*start button that reveals the cart*@  
+        <button onclick="revealCart()" id="cartReveal" class="fill"><b>Booking Cart</b></button>
+        @*end button that reveals the cart*@  
+
+        @*start booking cart*@         
+            <div class="cart_box" id="bookingCart" style="display:none;">
+            <div class="cart-container">
+                <form action="#" method="post" style="background-color: #ffffff;">
+                    <table id="cart_table" width="390" height="300" style="font-size:20px">
+                        <tr>
+                            <td style="font-weight:bold">
+                                <u>Booking Cart</u>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Hotel:  <input type="text" size="7" name="hotelName" value="@Model.HotelName" style="font-size:20px; border: none; background: transparent; width: 75%;" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Check-in-date:  <input type="text" id="cartCID" size="7" name="check_in" style="font-size:20px; border: none; background: transparent;" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Check-out-date:  <input type="text" size="7" id="cartCOD" name="check_out" style="font-size:20px;  border: none; background: transparent;" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Nights : <input type="text" id="nights" size="7" style="font-size:20px;  border: none; background: transparent;" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Room Selected:  
+                            </td>
+                        </tr>
+
+                    </table>
+                    <table id="cart_table_1" width="390" height="10" style="font-size:20px">
+                        <tr>
+                            <td>
+                                <br />
+                            </td>
+
+                        </tr>
+                    </table>
+
+                    <table id="cart_table_2" width="390" height="10" style="font-size:20px">
+                        <tr>
+                            <td>
+                                Total: RM<input type="number" id="total" name="total" value="0" style="font-size:20px;  border: none; background: transparent;" readonly>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="submit" id="proceed" value="Proceed" style="float:right" disabled="disabled" />
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+          </div>
+          @*end booking cart*@
+
+    </body>
+</html>
+
+<script>
+    //reveal booking cart
+    function revealCart() {
+        var x = document.getElementById("bookingCart");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+    //disable proceed btn when there are no orders in the cart
+    function validateProceed() {
+        var oRows = document.getElementById('cart_table_1').getElementsByTagName('tr');
+        var iRowCount = oRows.length;
+        if (iRowCount == 1) {
+            document.getElementById("proceed").disabled = true;
+            document.getElementById("proceed").style.backgroundColor = "#E60042";
+
+        } else {
+            document.getElementById("proceed").disabled = false;
+            document.getElementById("proceed").style.backgroundColor = "#4CAF50";  
+        }
+    }
+    //disable book btn
+    function disablebtn(id) {
+        document.getElementById("btn-" + id).disabled = true;
+        document.getElementById("roomNo-" + id).disabled = true;
+        document.getElementById("btn-" + id).style.backgroundColor = "#E60042";
+    }
+    //reenable book btn
+    function reenablebtn(id) {
+        document.getElementById("btn-" + id).disabled = false;
+        document.getElementById("roomNo-" + id).disabled = false;
+        document.getElementById("btn-" + id).style.backgroundColor = "#4CAF50";
+    }
+    //update total when room is booked
+    function updateTotal(id) {
+        var total = document.getElementById("total").value;
+        var newTotal = parseInt(total) + parseInt(document.getElementById("price-" + id).innerText) * parseInt(document.getElementById("roomNo-" + id).value) * parseInt(document.getElementById("nights").value);
+        document.getElementById("total").value = newTotal;
+    } 
+    //updates total amount when row is deleted
+    function updateTotalDelete(amount) {
+        var total = document.getElementById("total").value;
+        var newTotal = total - amount;
+        document.getElementById("total").value = newTotal;
+    }
+    // add room and room number to cart_table_1
+    var i = 0;
+    function addToCart(id) {
+        var table = document.getElementById("cart_table_1");
+        var row = table.insertRow(0); // insert row into shopping cart
+        row.setAttribute("id", "cart_row" + id);
+        var room_type = row.insertCell(0);
+        var price = row.insertCell(1);
+        var delete_button = row.insertCell(2);
+        var input = document.createElement("input");
+        input.type = "text";
+        input.readOnly = "true";
+        input.name = "sr[]";
+        input.value = document.getElementById(id).innerText + "  x" + document.getElementById("roomNo-" + id).value;
+        input.setAttribute("style", "font-size: 20;  border: none; background: transparent;");
+        room_type.appendChild(input);   
+
+        //making the price appear at cart next to the room booked
+        var roomnights = parseInt(document.getElementById("roomNo-" + id).value * document.getElementById("nights").value);
+        var harga = document.getElementById("price-" + id).innerText;
+        var amount = harga * roomnights;
+        price.innerHTML = "RM" + harga * roomnights;
+
+        //delete button
+        var btn = document.createElement("button");// Create a <button> element for shopping cart
+        btn.innerHTML = 'Delete';
+        btn.style.color = 'red';
+        btn.onclick = function () {
+            reenablebtn(id);
+            deleteRow("cart_row" + id);
+            updateTotalDelete(amount);
+            validateProceed();
+        };
+        delete_button.appendChild(btn); 
+        i++;
+    }
+    //delete row from cart_table_1
+    function deleteRow(rowid) {
+        var row = document.getElementById(rowid);
+        row.parentNode.removeChild(row);
+    }
+    //go to add on page
+
+</script>
+

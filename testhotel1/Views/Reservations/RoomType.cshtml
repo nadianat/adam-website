@@ -1,4 +1,4 @@
-﻿@model VendingMachine.Services.ViewModel.HotelInfoViewModel
+@model VendingMachine.Services.ViewModel.HotelInfoViewModel
 
 @{
     ViewData["Title"] = "Walk In Reservation";
@@ -151,8 +151,6 @@
 
 
     <body>
-
-
     @* start the nice thing with icons*@
             <div class="our">
                <div class="container bookform" style="padding-bottom: 0px">
@@ -308,7 +306,7 @@
                                             </div>
                                         </td>
                                         <td style="padding:20px">
-                                            <input type="submit" id="btn-@i" value="Reserve Now" onclick="addToCart(@i); updateTotal(@i); disablebtn(@i); validateProceed()" style="font-size:20px; background-color: #4CAF50; border: none;color: white; padding: 8px 10px; border-radius: 15px" />
+                                            <input type="submit" id="btn-@i" value="Reserve Now" onclick="addToCart(@i); updateTotal(@i); disablebtn(@i); roomType(@i); validateProceed()" style="font-size:20px; background-color: #4CAF50; border: none;color: white; padding: 8px 10px; border-radius: 15px" />
                                         </td>
                                     </tr>
                                 </table>
@@ -381,7 +379,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <input type="submit" id="proceed" value="Proceed" style="float:right" disabled="disabled" asp-action="GuestInfo" onclick="addPrice()"/>
+                                <input type="submit" id="proceed" value="Proceed" style="float:right" disabled="disabled" asp-action="ICCapture" onclick="addPrice()"/>
                             </td>
                         </tr>
                     </table>
@@ -440,7 +438,7 @@
         var newTotal = total - amount;
         document.getElementById("total").value = newTotal;
     }
-    // add room and room number to cart_table_1
+    // add room and no of room to cart_table_1
     var i = 0;
     function addToCart(id) {
         var table = document.getElementById("cart_table_1");
@@ -487,6 +485,15 @@
         //retrieving total price
         var zePrice = document.getElementById("total").value;
         localStorage.setItem("zePrice", zePrice); //setting local storage to pass value to the next page
+        //retrieve nights
+        var nights = document.getElementById("nights").value;
+        localStorage.setItem("nights", nights); //setting local storage to pass value to the next page
+    }
+
+    function roomType(id){
+        //retrieve room types
+        var roomType = document.getElementById(id).innerText;
+        localStorage.setItem("roomType", roomType); //setting local storage to pass value to the next page'
     }
 
 </script>
